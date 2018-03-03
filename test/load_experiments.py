@@ -1,5 +1,5 @@
 import sys
-sys.path.append("/home/rodfcast/Documents/CVR/Proyecto RIP/Hyperspectral_Library")
+sys.path.append("../")
 from HSCube import *
 from HSGeometricCalibration import *
 import matplotlib.pyplot as plt
