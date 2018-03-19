@@ -1,7 +1,7 @@
 import pandas as pd
 import sys
 import tifffile as tiff
-sys.path.append("/home/rodfcast/Documents/CVR/Proyecto RIP/Hyperspectral_Library")
+sys.path.append("../")
 import matplotlib.pyplot as plt
 from sklearn import datasets
 from sklearn.decomposition import PCA
