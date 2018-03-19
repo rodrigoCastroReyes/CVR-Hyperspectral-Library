@@ -25,6 +25,8 @@ class HSCube(object):
 			return os.path.join(self.dir_root,'cuboNormalizadoPolder')
 		if type_cube == 'snv':
 			return os.path.join(self.dir_root,'cuboNormalizadoSNV')
+		if type_cube == 'moh':
+			return os.path.join(self.dir_root,'cuboNormalizadoMohamed')
 
 	def load_data(self):
 		self.image_worker = HSImageWorker(self.dir_input)
@@ -106,3 +108,31 @@ class HSCube(object):
 		bgr = self.build_rgb_components()
 		bgr_img = cv2.merge(bgr)
 		return bgr_img
+
+	def rgri(self):
+		index = np.sum(self.data[:,:,181:265],axis=2)/np.sum(self.data[:,:,97:181],axis=2)
+		index = index[~np.isnan(index)]
+		return index[0:self.num_pixels]
+	
+	def pri(self):
+		r_570 = np.mean(self.data[:,:,147:160],axis=2)
+		r_531 = np.mean(self.data[:,:,117:139],axis=2)#525,550
+		index = 1.0*(r_531-r_570)/(r_531+r_570)
+		index = index[~np.isnan(index)]
+		return index[0:self.num_pixels]
+
+	def wi(self):
+		r_900 = np.mean(self.data[:,:,398:439],axis=2)
+		r_970 = np.mean(self.data[:,:,485:493],axis=2)
+		index = 1.0*r_900/r_970
+		index = index[~np.isnan(index)]
+
+		return index[0:self.num_pixels]
+
+	def tcari(self):
+		r_700 = np.mean(self.data[:,:,248:290],axis=2)#680,730
+		r_670 = np.mean(self.data[:,:,223:256],axis=2)#650,690
+		r_550 = np.mean(self.data[:,:,130:148],axis=2)#540,560
+		index =  3*((r_700 - r_670) - 0.2*(r_700-r_550))*(r_700/r_670)
+		index = index[~np.isnan(index)]
+		return index[0:self.num_pixels]
