@@ -10,4 +10,4 @@ dir_input = sys.argv[1]
 hs_geo = Polder(dir_input)
 hs_geo.calibrate()
 hs_geo.save()
-print dir
+print(dir)
