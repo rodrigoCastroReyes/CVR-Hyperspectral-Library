@@ -1,7 +1,11 @@
-load_experiments.py:
-Script para visualizar el espectro de un pixel
-Para correr:
+#Cargar experimentos
+Para cargar un cubo resultado de una sesion de captura se debe usar el script load_experiments.py.
+Este programa permite para visualizar el espectro de un pixel. Para correr:
+
+```bash
     python load_experiments.py path_to_experiment px py min_wv max_wv
+```
+
 Donde:
     px: columnas
     py: filas
