@@ -16,4 +16,5 @@ for index in range(len(df)):
 	label = df.ix[index]['label']
 	cube = HSCube(dir_input,type_cube='raw',spectral_range_flag='all')
 	side = cube.get_side_of_leaf(px,py,rx,ry)
-	print ("Label: %s, Side: %s"%(label,side))
+	print()"Label: %s, Side: %s"%(label,side))
+print(side)
