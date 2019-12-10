@@ -55,10 +55,6 @@ class HSCube(object):
 
 	def get_mask(self):
 		if os.path.isfile(join(self.dir_root,"mask.tif")):
-<<<<<<< HEAD
-			print("ya existe")
-=======
->>>>>>> 3e3e26721b52d9725d7524ac37d3f6709f89367c
 			img = tiff.imread(join(self.dir_root,"mask.tif"))
 			img = 1.0*img/img.max()
 			return img
@@ -123,11 +119,7 @@ class HSCube(object):
 			bgr_img = self.image_worker.read_image(join(join(self.dir_root,'fotoThor'),'output.tif'))
 		except Exception as e:
 			bgr_img = None
-<<<<<<< HEAD
-			print("Rgb Image cannot find")
-=======
 			print ("Rgb Image cannot find")
->>>>>>> 3e3e26721b52d9725d7524ac37d3f6709f89367c
 		
 		if bgr_img!= None:
 			return bgr_img

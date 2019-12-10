@@ -77,10 +77,6 @@ class HSLeafsDataframe(object):
 			df['countour'] = self.get_contours(hype_cube)
 		df = df[df['no_background']==1]
 		#df = df.loc[df['no_background']==255]
-<<<<<<< HEAD
-		print(df)
-=======
->>>>>>> 3e3e26721b52d9725d7524ac37d3f6709f89367c
 		return df
 
 	def get_positions(self):

@@ -56,11 +56,7 @@ class HSImageWorker(object):
 			for k,file_name in enumerate(self.files_names):
 				images[:,:,k] = np.array(self.read_image(file_name))
 			return images
-<<<<<<< HEAD
-		print("it can't find directory")
-=======
 		print ("it can't find directory")
->>>>>>> 3e3e26721b52d9725d7524ac37d3f6709f89367c
 		return None
 
 	def write_images(self,imgs,dir):
