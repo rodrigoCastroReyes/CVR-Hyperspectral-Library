@@ -90,7 +90,7 @@ class HSCube(object):
 			bgr_img = self.image_worker.read_image(join(join(self.dir_root,'fotoThor'),'output.tif'))
 		except Exception as e:
 			bgr_img = None
-			print "Rgb Image cannot find"
+			print("Rgb Image cannot find")
 		
 		if bgr_img!= None:
 			return bgr_img
@@ -196,7 +196,7 @@ class HSCube(object):
 	def get_mask(self):
 		
 		if os.path.isfile(join(self.dir_root,"mask.tif")):
-			print "ya existe"
+			print("ya existe")
 			img = tiff.imread(join(self.dir_root,"mask.tif"))
 			img = 1.0*img/img.max()
 			return img
@@ -324,13 +324,13 @@ class HSSyntheticCube(HSCube):
 		self.build(raw_data)
 
 	def build(self,raw_data):
-		print raw_data.shape
+		print(raw_data.shape)
 
 		real_num_pixels,wavelenghts = raw_data.shape
 		mod = real_num_pixels%10
 		num_pixels,wavelenghts = raw_data.shape
 		self.num_pixels = num_pixels
-		print mod
+		print(mod)
 
 		if mod != 0:
 			new_data = np.array([ 1 for i in range(520)])
@@ -343,4 +343,4 @@ class HSSyntheticCube(HSCube):
 		self.data = np.reshape(raw_data,(rows,cols,wavelenghts))
 		self.rows = rows
 		self.cols = cols
-		print self.data
+		print(self.data)

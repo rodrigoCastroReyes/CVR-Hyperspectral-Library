@@ -42,7 +42,7 @@ class Drawer(object):
 			index = np.where(fst_derivative==value)
 			#index = fst_derivative.index(value)
 			zeros.append(index[0][0])
-		print zeros
+		print(zeros)
 		#zeros_values = [index for index,x in enumerate(zero) if x<0.001 and x>-0.001]
 		#zeros_values = [index for index,x in enumerate(zero) ]
 		#print zeros_values

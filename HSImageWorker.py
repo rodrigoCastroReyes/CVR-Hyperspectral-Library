@@ -45,7 +45,7 @@ class HSImageWorker(object):
 				img = np.array(self.read_image(file_name))
 				images = np.dstack((images, img)) if images.size else img
 			return images
-		print "it can't find directory"
+		print("it can't find directory")
 		return None
 
 	def write_images(self,imgs,dir):
