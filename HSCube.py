@@ -1,25 +1,36 @@
 from HSImageWorker import *
 from scipy import signal
+from os.path import join
+
 
 class HSCube(object):
 
-	def __init__(self,dir_input=None,type_cube='raw',geometric_calibrator=None,segmentation_strategy=None):
+	def __init__(self,dir_input=None,type_cube='raw',min_wv=387,max_wv=1020,
+	geometric_calibrator=None,segmentation_strategy=None):
 		super(HSCube, self).__init__()
 		self.type_cube = type_cube
 		self.dir_root = dir_input
-		
+		self.min_wv = min_wv
+		self.max_wv = max_wv
+		self.set_wavelengths_index()
 		self.geometric_calibrator = geometric_calibrator
 		self.segmentator = segmentation_strategy
 
 		self.data = None
 
 		self.dir_input = self.set_dir_input(type_cube)
-		self.load_data()
+		
+
+	def set_wavelengths_index(self):
+		self.min_index = self.get_index(self.min_wv)
+		self.max_index = self.get_index(self.max_wv)
+		print(self.min_index,self.max_index)
+
 
 	def set_dir_input(self,type_cube):
 		if type_cube == 'raw':
 			return os.path.join(self.dir_root,'cubo')
-		if type_cube == 'normalizado':
+		if type_cube == 'normalized':
 			return os.path.join(self.dir_root,'cuboNormalizado')
 		if type_cube == 'polder':
 			return os.path.join(self.dir_root,'cuboNormalizadoPolder')
@@ -30,30 +41,38 @@ class HSCube(object):
 
 	def load_data(self):
 		self.image_worker = HSImageWorker(self.dir_input)
-		self.data = self.image_worker.load()
+		self.data = self.image_worker.load(self.min_index,self.max_index)
 		if np.any(self.data):
 			rows,cols,wv = self.data.shape
 			self.rows = rows
 			self.cols = cols
 			self.num_pixels = self.rows * self.cols
+			return True
+		return False
 
 	def do_geometric_calibration(self):
 		self.data = self.geometric_calibrator.calibrate(self.data)
 
 	def get_mask(self):
 		if os.path.isfile(join(self.dir_root,"mask.tif")):
-			print "ya existe"
 			img = tiff.imread(join(self.dir_root,"mask.tif"))
 			img = 1.0*img/img.max()
 			return img
 		mask = self.segmetator.thresholding(self.mask)
 		return mask
 
-	def get_wavelength(self,index,bin_spectral=2):
+	def get_index(self,d,bin_spectral=1):
+		coeff = [0.000022*bin_spectral, 0.586*bin_spectral,  386.829 - d]
+		solutions = np.roots(coeff)
+		print(solutions)
+		x = solutions[solutions>0]
+		return int(math.floor(x[0]))
+
+	def get_wavelength(self,index,bin_spectral=1):
 		return 0.000022*index*index*bin_spectral + 0.586*index*bin_spectral + 386.829
 
-	def get_wavelengths(self):
-		return [ self.get_wavelength(i) for i in range(520)]
+	def get_wavelengths(self,bin_spectral=1):
+		return np.array([ self.get_wavelength(i,bin_spectral) for i in range(self.min_index,self.max_index)])
 
 	def get_spectrum_by_pixel(self,px,py,filter=False,window_size=7,order=3):
 		spectral_range = self.data[py,px,:]
@@ -100,7 +119,7 @@ class HSCube(object):
 			bgr_img = self.image_worker.read_image(join(join(self.dir_root,'fotoThor'),'output.tif'))
 		except Exception as e:
 			bgr_img = None
-			print "Rgb Image cannot find"
+			print ("Rgb Image cannot find")
 		
 		if bgr_img!= None:
 			return bgr_img
