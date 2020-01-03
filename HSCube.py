@@ -1,7 +1,7 @@
 from HSImageWorker import *
 from scipy import signal
 from os.path import join
-
+from ImageUtils import *
 
 class HSCube(object):
 
@@ -108,20 +108,23 @@ class HSCube(object):
 
 	def build_rgb_components(self):
 		util = ImageUtils()
-		green = util.scale(self.get_green())
-		red = util.scale(self.get_red())
-		blue = util.scale(self.get_blue())
-		bgr = [red, green, blue]
-		return bgr
+		if self.data.any():
+			green = util.scale(self.get_green())
+			red = util.scale(self.get_red())
+			blue = util.scale(self.get_blue())
+			bgr = [red, green, blue]
+
+			return bgr
+		return None
 
 	def get_rgb(self):
 		try:
-			bgr_img = self.image_worker.read_image(join(join(self.dir_root,'fotoThor'),'output.tif'))
+			bgr_img = self.image_worker.read_image(join(self.dir_root,'output.tif'))
 		except Exception as e:
 			bgr_img = None
 			print ("Rgb Image cannot find")
 		
-		if bgr_img!= None:
+		if bgr_img.any():
 			return bgr_img
 		
 		bgr = self.build_rgb_components()

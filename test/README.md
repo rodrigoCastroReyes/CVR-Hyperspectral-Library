@@ -1,4 +1,4 @@
-#Cargar experimentos
+# Cargar experimentos
 Para cargar un cubo resultado de una sesion de captura se debe usar el script load_experiments.py.
 Este programa permite para visualizar el espectro de un pixel. Para correr:
 
