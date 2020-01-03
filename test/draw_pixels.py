@@ -32,7 +32,7 @@ def onclick(event):
 		fig.canvas.draw()
 
 dir_input = sys.argv[1]
-cube = HSCube(dir_input,type_cube='raw')
+cube = HSCube(dir_input,type_cube='normalized')
 spectral_domain = cube.get_wavelengths()
 if cube.load_data() :
 	print("Loading HSCube")
